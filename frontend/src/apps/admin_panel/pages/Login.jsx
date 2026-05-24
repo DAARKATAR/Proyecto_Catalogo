@@ -1,25 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authApi } from '../../../shared/services/api';
 
+const MAX_ATTEMPTS = 3;
+const LOCKOUT_TIME = 60000; // 1 minuto de bloqueo
+
 const Login = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [attempts, setAttempts] = useState(0);
+  const [isLocked, setIsLocked] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Si llegamos a 3 intentos, bloqueamos
+    if (attempts >= MAX_ATTEMPTS) {
+      setIsLocked(true);
+      setError('Demasiados intentos fallidos. Panel bloqueado por seguridad (1 minuto).');
+      
+      const timer = setTimeout(() => {
+        setIsLocked(false);
+        setAttempts(0);
+        setError('');
+      }, LOCKOUT_TIME);
+
+      return () => clearTimeout(timer);
+    }
+  }, [attempts]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    if (isLocked) return;
+
     setLoading(true);
     setError('');
 
     try {
-      await authApi.login(username, password);
-      // If success, navigate to admin
+      await authApi.login(email, password);
+      // Reseteamos intentos si fue exitoso
+      setAttempts(0);
       navigate('/admin');
     } catch (err) {
-      setError(err.message);
+      setAttempts(prev => prev + 1);
+      setError(err.message === 'Invalid login credentials' 
+        ? `Credenciales incorrectas. Intentos restantes: ${MAX_ATTEMPTS - (attempts + 1)}` 
+        : err.message);
     } finally {
       setLoading(false);
     }
@@ -29,20 +56,21 @@ const Login = () => {
     <div className="login-container bg-dark">
       <div className="login-box glass">
         <div className="text-center mb-4">
-          <h2 className="gradient-text">MOTOLOOK ADMIN</h2>
-          <p className="text-dim">Acceso exclusivo para personal autorizado</p>
+          <h2 className="gradient-text">PANEL SEGURO</h2>
+          <p className="text-dim">Acceso exclusivo para el Super Administrador</p>
         </div>
 
         <form onSubmit={handleLogin}>
           {error && <div className="error-alert">{error}</div>}
           
           <div className="form-group">
-            <label>Usuario</label>
+            <label>Correo Electrónico (Admin)</label>
             <input 
-              type="text" 
-              value={username} 
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="admin"
+              type="email" 
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="admin@empresa.com"
+              disabled={isLocked}
               required 
             />
           </div>
@@ -52,13 +80,14 @@ const Login = () => {
               type="password" 
               value={password} 
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="admin123"
+              placeholder="••••••••"
+              disabled={isLocked}
               required 
             />
           </div>
           
-          <button type="submit" className="btn btn-primary w-full" disabled={loading}>
-            {loading ? 'Verificando...' : 'Ingresar al Dashboard'}
+          <button type="submit" className={`btn w-full ${isLocked ? 'btn-disabled' : 'btn-primary'}`} disabled={loading || isLocked}>
+            {loading ? 'Verificando cifrado...' : (isLocked ? 'Acceso Bloqueado' : 'Ingresar al Dashboard')}
           </button>
         </form>
         
@@ -81,6 +110,7 @@ const Login = () => {
           max-width: 400px;
           padding: 3rem 2rem;
           border-radius: 20px;
+          box-shadow: 0 0 30px rgba(0,0,0,0.8);
         }
         .text-center { text-align: center; }
         .mb-4 { margin-bottom: 2rem; }
@@ -108,8 +138,12 @@ const Login = () => {
           transition: var(--transition);
         }
         .form-group input:focus {
-          border-color: var(--primary);
+          border-color: #00ffcc;
           outline: none;
+        }
+        .form-group input:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
         }
         .error-alert {
           background: rgba(255, 60, 60, 0.1);
@@ -120,6 +154,7 @@ const Login = () => {
           margin-bottom: 1.5rem;
           text-align: center;
           font-size: 0.9rem;
+          font-weight: 500;
         }
         .btn-link {
           background: none;
@@ -130,9 +165,15 @@ const Login = () => {
           transition: var(--transition);
         }
         .btn-link:hover {
-          color: var(--primary);
+          color: #00ffcc;
         }
         .w-full { width: 100%; }
+        .btn-disabled {
+          background: #333;
+          color: #666;
+          border-color: #444;
+          cursor: not-allowed;
+        }
       `}</style>
     </div>
   );

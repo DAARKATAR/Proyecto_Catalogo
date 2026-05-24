@@ -8,6 +8,7 @@ const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('todos');
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const navigate = useNavigate();
 
   const displayedProducts = activeTab === 'todos' 
@@ -18,8 +19,9 @@ const AdminDashboard = () => {
   const [formData, setFormData] = useState({
     id: null,
     name: '',
-    storeType: 'motolook', // motolook, autolook
+    storeType: 'motolook', // motolook, autolook, general
     category: 'Repuestos',
+    brand: '', // Nueva columna: Marca
     price: '',
     stock: '',
     imageUrl: ''
@@ -27,6 +29,34 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     fetchProducts();
+
+    // TEMPORIZADOR DE INACTIVIDAD (1 minuto = 60000 ms)
+    let timeoutId;
+    
+    const resetTimer = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        alert('Sesión cerrada por inactividad.');
+        handleLogout();
+      }, 60000);
+    };
+
+    // Escuchar eventos de interacción del usuario
+    window.addEventListener('mousemove', resetTimer);
+    window.addEventListener('keydown', resetTimer);
+    window.addEventListener('click', resetTimer);
+    window.addEventListener('scroll', resetTimer);
+
+    // Iniciar temporizador
+    resetTimer();
+
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('mousemove', resetTimer);
+      window.removeEventListener('keydown', resetTimer);
+      window.removeEventListener('click', resetTimer);
+      window.removeEventListener('scroll', resetTimer);
+    };
   }, []);
 
   const fetchProducts = async () => {
@@ -69,24 +99,36 @@ const AdminDashboard = () => {
   };
 
   const editProduct = (prod) => {
-    setFormData(prod);
+    setFormData({
+      id: prod.id,
+      name: prod.name || '',
+      storeType: prod.storeType || 'motolook',
+      category: prod.category || 'Repuestos',
+      brand: prod.brand || '',
+      price: prod.price || '',
+      stock: prod.stock || 0,
+      imageUrl: prod.imageUrl || ''
+    });
     setIsEditing(true);
   };
 
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        // Guarda la imagen en base64 para simular subida
-        setFormData({ ...formData, imageUrl: reader.result });
-      };
-      reader.readAsDataURL(file);
+      try {
+        setIsUploading(true);
+        const url = await catalogApi.uploadImage(file);
+        setFormData({ ...formData, imageUrl: url });
+      } catch (error) {
+        alert(error.message);
+      } finally {
+        setIsUploading(false);
+      }
     }
   };
 
   const resetForm = () => {
-    setFormData({ id: null, name: '', storeType: 'motolook', category: 'Repuestos', price: '', stock: '', imageUrl: '' });
+    setFormData({ id: null, name: '', storeType: 'motolook', category: 'Repuestos', brand: '', price: '', stock: '', imageUrl: '' });
     setIsEditing(false);
   };
 
@@ -95,7 +137,7 @@ const AdminDashboard = () => {
       {/* Sidebar */}
       <aside className="sidebar glass-dark">
         <div className="sidebar-header">
-          <h2 className="gradient-text">MOTOLOOK</h2>
+          <h2 className="gradient-text">AUTOLOOK</h2>
           <span>Admin Panel</span>
         </div>
         <nav className="sidebar-nav">
@@ -103,16 +145,10 @@ const AdminDashboard = () => {
 
           <div style={{marginTop: '2rem', display: 'flex', flexDirection: 'column', gap: '0.5rem'}}>
             <span style={{fontSize: '0.75rem', color: '#666', textTransform: 'uppercase', letterSpacing: '1px', paddingLeft: '1rem', marginBottom: '0.5rem'}}>
-              🌐 Ver Tiendas en Vivo
+              🌐 Ver Tienda en Vivo
             </span>
-            <a href="/moto/catalogo" target="_blank" rel="noopener noreferrer" className="nav-item" style={{textDecoration: 'none', fontSize: '0.9rem'}}>
-               🏍️ MotoLook Público
-            </a>
-            <a href="/auto/catalogo" target="_blank" rel="noopener noreferrer" className="nav-item" style={{textDecoration: 'none', fontSize: '0.9rem'}}>
-               🏎️ AutoLook Público
-            </a>
-            <a href="/catalogo" target="_blank" rel="noopener noreferrer" className="nav-item" style={{textDecoration: 'none', fontSize: '0.9rem'}}>
-               💎 Look VIP Público
+            <a href="/" target="_blank" rel="noopener noreferrer" className="nav-item" style={{textDecoration: 'none', fontSize: '0.9rem'}}>
+               💎 Ir a la Landing Page
             </a>
           </div>
         </nav>
@@ -123,9 +159,21 @@ const AdminDashboard = () => {
 
       {/* Main Content */}
       <main className="main-content">
-        <header className="content-header">
-          <h2>Gestión de Catálogo</h2>
-          <p className="text-dim">Maneja tu inventario aquí. Los cambios se reflejarán instantáneamente en la app pública.</p>
+        <header className="content-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+          <div>
+            <h2>Gestión de Catálogo Premium</h2>
+            <p className="text-dim">Maneja tu inventario aquí. Los cambios se reflejarán instantáneamente.</p>
+          </div>
+          <div style={{ display: 'flex', gap: '1rem' }}>
+            <div className="glass" style={{ padding: '1rem 2rem', borderRadius: '12px', textAlign: 'center' }}>
+              <span style={{ display: 'block', fontSize: '0.8rem', color: '#00ffcc', textTransform: 'uppercase' }}>Total Productos</span>
+              <span style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{products.length}</span>
+            </div>
+            <div className="glass" style={{ padding: '1rem 2rem', borderRadius: '12px', textAlign: 'center' }}>
+              <span style={{ display: 'block', fontSize: '0.8rem', color: '#0088ff', textTransform: 'uppercase' }}>En Stock (Unid.)</span>
+              <span style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{products.reduce((acc, curr) => acc + (curr.stock || 0), 0)}</span>
+            </div>
+          </div>
         </header>
 
         <div className="dashboard-grid">
@@ -139,14 +187,13 @@ const AdminDashboard = () => {
                   <input type="text" required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
                 </div>
               </div>
-              
               <div className="form-row">
                 <div className="form-group">
-                  <label>Sucursal Destino</label>
+                  <label>Sucursal / Vehículo</label>
                   <select value={formData.storeType} onChange={e => setFormData({...formData, storeType: e.target.value})}>
-                    <option value="motolook">MotoLook (Motos)</option>
-                    <option value="autolook">AutoLook (Carros)</option>
-                    <option value="look">Look (Misceláneos VIP)</option>
+                    <option value="motolook">Moto (MotoLook)</option>
+                    <option value="autolook">Carro (AutoLook)</option>
+                    <option value="general">Universal (Para todo vehículo)</option>
                   </select>
                 </div>
                 <div className="form-group">
@@ -156,8 +203,18 @@ const AdminDashboard = () => {
                     <option value="Lujos">Lujos</option>
                     <option value="Seguridad">Seguridad</option>
                     <option value="Accesorios">Accesorios</option>
+                    <option value="Iluminación">Iluminación</option>
+                    <option value="Aerodinámica">Aerodinámica</option>
+                    <option value="Performance">Performance</option>
+                    <option value="Rines">Rines</option>
                   </select>
                 </div>
+                <div className="form-group">
+                  <label>Marca del Producto</label>
+                  <input type="text" placeholder="Ej: Pirelli, Brembo..." value={formData.brand || ''} onChange={e => setFormData({...formData, brand: e.target.value})} />
+                </div>
+              </div>
+              <div className="form-row">
                 <div className="form-group">
                   <label>Precio ($)</label>
                   <input type="number" required min="0" value={formData.price} onChange={e => setFormData({...formData, price: Number(e.target.value)})} />
@@ -176,18 +233,16 @@ const AdminDashboard = () => {
                     Subir Archivo
                   </label>
                   <span className="file-selected-text">
-                    {formData.imageUrl && formData.imageUrl.length > 200 
-                      ? '✓ Imagen cargada en memoria' 
-                      : (formData.imageUrl ? 'URL actual cargada' : 'Ningún archivo seleccionado')}
+                    {isUploading ? 'Subiendo imagen a Supabase...' : (formData.imageUrl ? '✓ Imagen subida con éxito' : 'Ningún archivo seleccionado')}
                   </span>
                 </div>
               </div>
 
               <div className="form-actions">
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-primary" disabled={isUploading}>
                   {isEditing ? 'Guardar Cambios' : 'Añadir Producto'}
                 </button>
-                {isEditing && <button type="button" onClick={resetForm} className="btn btn-outline">Cancelar</button>}
+                {isEditing && <button type="button" onClick={resetForm} className="btn btn-outline" disabled={isUploading}>Cancelar</button>}
               </div>
             </form>
           </div>
@@ -199,7 +254,7 @@ const AdminDashboard = () => {
                 <h3>Inventario Actual</h3>
                 <div className="admin-tabs">
                   <button className={`tab-btn ${activeTab === 'todos' ? 'active' : ''}`} onClick={() => setActiveTab('todos')}>Todas</button>
-                  <button className={`tab-btn ${activeTab === 'look' ? 'active' : ''}`} onClick={() => setActiveTab('look')}>Look General</button>
+                  <button className={`tab-btn ${activeTab === 'general' ? 'active' : ''}`} onClick={() => setActiveTab('general')}>Universal</button>
                   <button className={`tab-btn ${activeTab === 'motolook' ? 'active' : ''}`} onClick={() => setActiveTab('motolook')}>MotoLook</button>
                   <button className={`tab-btn ${activeTab === 'autolook' ? 'active' : ''}`} onClick={() => setActiveTab('autolook')}>AutoLook</button>
                 </div>
@@ -222,17 +277,20 @@ const AdminDashboard = () => {
                 </thead>
                 <tbody>
                   {loading ? (
-                    <tr><td colSpan="6" className="text-center py-4">Cargando inventario...</td></tr>
+                    <tr><td colSpan="7" className="text-center py-4">Cargando inventario...</td></tr>
                   ) : displayedProducts.length === 0 ? (
                     <tr><td colSpan="7" className="text-center py-4">No hay productos en esta sucursal</td></tr>
                   ) : (
                     displayedProducts.map(prod => (
                       <tr key={prod.id}>
                         <td><img src={prod.imageUrl} alt={prod.name} className="table-img" /></td>
-                        <td className="font-bold">{prod.name}</td>
+                        <td className="font-bold">
+                          <div>{prod.name}</div>
+                          <small style={{color: '#888'}}>{prod.brand}</small>
+                        </td>
                         <td>
-                          <span className="badge" style={{color: prod.storeType === 'look' ? '#9d00ff' : (prod.storeType === 'autolook' ? '#ff3300' : '#0088ff')}}>
-                            {prod.storeType === 'look' ? 'Look VIP' : (prod.storeType === 'autolook' ? 'AutoLook' : 'MotoLook')}
+                          <span className={`badge ${prod.storeType === 'autolook' ? 'badge-auto' : prod.storeType === 'motolook' ? 'badge-moto' : 'badge-general'}`}>
+                            {prod.storeType === 'autolook' ? 'Carro' : prod.storeType === 'motolook' ? 'Moto' : 'Universal'}
                           </span>
                         </td>
                         <td><span className="badge">{prod.category}</span></td>

@@ -4,26 +4,8 @@ import { Link, useLocation } from 'react-router-dom';
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-  
-  // Dynamic brand logic
-  const isAuto = location.pathname.startsWith('/auto');
-  const isLook = location.pathname === '/' || location.pathname === '/catalogo';
-  
-  let brandName = 'MOTOLOOK';
-  let mainURL = '/moto';
-  let catalogURL = '/moto/catalogo';
 
-  if (isAuto) {
-    brandName = 'AUTOLOOK';
-    mainURL = '/auto';
-    catalogURL = '/auto/catalogo';
-  } else if (isLook) {
-    brandName = 'LOOK';
-    mainURL = '/';
-    catalogURL = '/catalogo';
-  }
-
-  const isHome = location.pathname === mainURL;
+  const isHome = location.pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,14 +18,15 @@ const Navbar = () => {
   return (
     <nav className={`navbar ${scrolled ? 'scrolled glass-dark' : ''}`}>
       <div className="container nav-content">
-        <Link to={mainURL} className="logo">
-          <span className="gradient-text">{brandName}</span>
+        <Link to="/" className="logo">
+          <img src="/icon.png" alt="AutoLook Logo" className="navbar-icon" />
+          <span className="gradient-text">AUTOLOOK</span>
         </Link>
         <ul className="nav-links">
-          <li><Link to={mainURL}>Inicio</Link></li>
+          <li><Link to="/">Inicio</Link></li>
           {isHome && (
             <>
-              <li><Link to={catalogURL}>Catálogo</Link></li>
+              <li><a href="#catalog-section">Catálogo</a></li>
               <li><a href="#services">Servicios</a></li>
               <li><a href="#contact">Contacto</a></li>
             </>
@@ -75,9 +58,16 @@ const Navbar = () => {
           font-weight: 800;
           font-size: 1.5rem;
           display: flex;
-          flex-direction: column;
+          align-items: center;
+          gap: 10px;
           line-height: 1;
           text-decoration: none;
+        }
+        .navbar-icon {
+          height: 35px;
+          width: auto;
+          mix-blend-mode: screen; /* Elimina fondos oscuros */
+          /* filter: brightness(0) invert(1); /* Descomenta esto si el fondo era blanco para volver el logo blanco puro */
         }
         .logo-sub {
           font-size: 0.7rem;
