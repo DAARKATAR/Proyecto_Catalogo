@@ -136,9 +136,10 @@ const AdminDashboard = () => {
     <div className="admin-layout">
       {/* Sidebar */}
       <aside className="sidebar glass-dark">
-        <div className="sidebar-header">
-          <h2 className="gradient-text">AUTOLOOK</h2>
-          <span>Admin Panel</span>
+        <div className="sidebar-header" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+          <img src="/icon.png" alt="AutoLook Logo" style={{ width: '70px', height: 'auto', borderRadius: '12px' }} />
+          <h2 className="gradient-text" style={{ margin: 0, fontSize: '1.5rem' }}>AUTOLOOK</h2>
+          <span style={{ fontSize: '0.85rem', color: 'var(--text-dim)' }}>Admin Panel</span>
         </div>
         <nav className="sidebar-nav">
           <button className="nav-item active"><Package size={20} /> Inventario</button>
