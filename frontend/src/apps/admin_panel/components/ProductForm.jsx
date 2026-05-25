@@ -1,5 +1,5 @@
 import React from 'react';
-import { catalogApi } from '../../../../shared/services/api';
+import { catalogApi } from '../../../shared/services/api';
 
 const ProductForm = ({ formData, setFormData, isEditing, isUploading, setIsUploading, resetForm, fetchProducts }) => {
 

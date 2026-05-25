@@ -1,6 +1,6 @@
 import React from 'react';
 import { Edit2, Trash2 } from 'lucide-react';
-import { catalogApi } from '../../../../shared/services/api';
+import { catalogApi } from '../../../shared/services/api';
 
 const ProductTable = ({ products, loading, activeTab, setActiveTab, fetchProducts, editProduct }) => {
 
