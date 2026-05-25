@@ -9,7 +9,7 @@ const WhatsAppFloat = () => {
   const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent("¡Hola! Quisiera más información sobre los repuestos y accesorios de su catálogo.")}`;
 
   // Ocultar en el panel de administrador y login
-  if (location.pathname.startsWith('/admin') || location.pathname.startsWith('/login')) {
+  if (location.pathname.startsWith('/admin')) {
     return null;
   }
 

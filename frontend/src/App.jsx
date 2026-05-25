@@ -21,7 +21,7 @@ function App() {
           <Route path="/catalogo" element={<Landing />} />
 
           {/* --- ADMIN CENTRALIZADO --- */}
-          <Route path="/login" element={<Login />} />
+          <Route path="/admin-acceso-seguro" element={<Login />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/admin" element={<AdminDashboard />} />
           </Route>

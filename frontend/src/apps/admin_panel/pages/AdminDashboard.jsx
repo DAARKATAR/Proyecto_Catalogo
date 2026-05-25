@@ -73,7 +73,7 @@ const AdminDashboard = () => {
 
   const handleLogout = () => {
     authApi.logout();
-    navigate('/login');
+    navigate('/admin-acceso-seguro');
   };
 
   const editProduct = (prod) => {

@@ -45,8 +45,8 @@ const Landing = () => {
             Descubre el catálogo definitivo de accesorios de alto rendimiento, lujo aerodinámico y repuestos premium para motos y automóviles.
           </p>
           
-          <div className="hero-cards-grid">
-            <div className="luxury-card moto-card" onClick={() => handleSelectCatalog('motolook')}>
+          <div className="hero-cards-grid animate-fade-in-up">
+            <div className="luxury-card moto-card animate-float" onClick={() => handleSelectCatalog('motolook')}>
               <div className="card-overlay"></div>
               <div className="card-content">
                 <h3>MOTOCICLETAS</h3>
@@ -55,7 +55,7 @@ const Landing = () => {
               </div>
             </div>
 
-            <div className="luxury-card auto-card" onClick={() => handleSelectCatalog('autolook')}>
+            <div className="luxury-card auto-card animate-float-delayed" onClick={() => handleSelectCatalog('autolook')}>
               <div className="card-overlay"></div>
               <div className="card-content">
                 <h3>AUTOMÓVILES</h3>
@@ -77,7 +77,7 @@ const Landing = () => {
 
       {/* Embedded Catalog Section */}
       {selectedCatalog && (
-        <section id="catalog-section" className="catalog-wrapper-premium">
+        <section id="catalog-section" className="catalog-wrapper-premium animate-fade-in">
           {selectedCatalog === 'autolook' ? (
              <SharedCatalog 
               storeType="autolook"
@@ -99,6 +99,24 @@ const Landing = () => {
           )}
         </section>
       )}
+
+      {/* Quiénes Somos Section */}
+      <section className="about-us-premium animate-fade-in-up" id="about">
+        <div className="container">
+          <div className="about-content-wrapper">
+            <div className="about-image-container">
+              <img src="/quienes-somos.jpg" alt="Nuestro Fundador" className="about-image blur-effect animate-float" />
+              <div className="about-image-glow"></div>
+            </div>
+            <div className="about-text-container">
+              <span className="subtitle-accent">NUESTRA HISTORIA</span>
+              <h2>Pasión por el motor, <span className="gradient-neon">Excelencia en el servicio</span></h2>
+              <p>Somos más que una tienda de repuestos. Somos entusiastas del mundo automotor dedicados a ofrecerte los mejores accesorios, lujos y partes de rendimiento del mercado. Nacimos de la pasión por las dos y cuatro ruedas, y esa misma pasión es la que nos impulsa a buscar siempre la máxima calidad para tu vehículo.</p>
+              <p>Cada pieza en nuestro catálogo ha sido seleccionada pensando en conductores exigentes que no se conforman con lo básico.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Services Premium Section */}
       <section className="services-premium" id="services">

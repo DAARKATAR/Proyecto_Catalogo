@@ -9,7 +9,7 @@ const ProtectedRoute = () => {
 
   // If not authenticated, kick user back to login page
   if (!session) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/admin-acceso-seguro" replace />;
   }
 
   // If authenticated, render the child routes (Admin Dashboard)
