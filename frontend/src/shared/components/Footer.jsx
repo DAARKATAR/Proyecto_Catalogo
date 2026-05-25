@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="footer section-padding">
+    <footer id="contact" className="footer section-padding">
       <div className="container">
         <div className="footer-grid">
           <div className="footer-brand">
@@ -18,7 +18,6 @@ const Footer = () => {
             <h4>Navegación</h4>
             <ul>
               <li><a href="#services">Servicios</a></li>
-              <li><a href="#contact">Contacto</a></li>
             </ul>
           </div>
           
@@ -26,6 +25,7 @@ const Footer = () => {
             <h4>Contacto y Horarios</h4>
             <ul>
               <li style={{ color: 'var(--primary)' }}>autolookcolombia@gmail.com</li>
+              <li>calle 13 #10-04</li>
               <li>Lunes a Sábado: 8:00am a 6:00pm</li>
               <li>Domingos y festivos: Cerrado</li>
             </ul>
