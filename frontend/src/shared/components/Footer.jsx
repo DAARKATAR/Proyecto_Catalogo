@@ -2,57 +2,41 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 
 const Footer = () => {
-  const location = useLocation();
-  const isAuto = location.pathname.startsWith('/auto');
-  const isLook = location.pathname === '/' || location.pathname === '/catalogo';
-
-  let brandName = 'MOTOLOOK';
-  let passionText = 'Pasión por las dos ruedas, compromiso con tu seguridad y estilo.';
-  
-  if (isAuto) {
-    brandName = 'AUTOLOOK';
-    passionText = 'Pasión por los motores, compromiso con tu seguridad y el lujo.';
-  } else if (isLook) {
-    brandName = 'LOOK';
-    passionText = 'Innovación VIP y tecnología de élite. Relojería, drones y gadgets.'
-  }
-
   return (
     <footer className="footer section-padding">
       <div className="container">
         <div className="footer-grid">
           <div className="footer-brand">
-            <h2 className="gradient-text">{brandName}</h2>
-            <p>{passionText}</p>
+            <h2 className="gradient-text">AUTOLOOK</h2>
+            <p>Pasión por los motores, compromiso con tu seguridad y el lujo.</p>
             <div className="social-links">
               <a href="#" className="social-icon">IG</a>
               <a href="#" className="social-icon">FB</a>
-              <a href="#" className="social-icon">WA</a>
+              <a href="https://wa.me/573018265636" target="_blank" rel="noopener noreferrer" className="social-icon">WA</a>
             </div>
           </div>
           
           <div className="footer-links">
             <h4>Navegación</h4>
             <ul>
-              <li><a href="#home">Inicio</a></li>
               <li><a href="#services">Servicios</a></li>
-              <li><a href="#gallery">Galería</a></li>
               <li><a href="#contact">Contacto</a></li>
             </ul>
           </div>
           
           <div className="footer-links">
-            <h4>Horarios</h4>
+            <h4>Contacto y Horarios</h4>
             <ul>
-              <li>Lunes - Viernes: 8am - 6pm</li>
-              <li>Sábado: 9am - 4pm</li>
-              <li>Domingo: Cerrado</li>
+              <li style={{ color: 'var(--primary)' }}>autolookcolombia@gmail.com</li>
+              <li>Lunes a Sábado: 8:00am a 6:00pm</li>
+              <li>Domingos y festivos: Cerrado</li>
             </ul>
           </div>
         </div>
         
-        <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} {brandName}. Todos los derechos reservados.</p>
+        <div className="footer-bottom" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <p>&copy; {new Date().getFullYear()} AUTOLOOK. Todos los derechos reservados.</p>
+          <a href="/admin" style={{ color: '#333', textDecoration: 'none', fontSize: '0.8rem' }}>Admin Access</a>
         </div>
       </div>
 

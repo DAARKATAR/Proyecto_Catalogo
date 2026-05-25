@@ -23,10 +23,8 @@ const Navbar = () => {
           <span className="gradient-text">AUTOLOOK</span>
         </Link>
         <ul className="nav-links">
-          <li><Link to="/">Inicio</Link></li>
           {isHome && (
             <>
-              <li><a href="#catalog-section">Catálogo</a></li>
               <li><a href="#services">Servicios</a></li>
               <li><a href="#contact">Contacto</a></li>
             </>
