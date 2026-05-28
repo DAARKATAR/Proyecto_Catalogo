@@ -75,30 +75,6 @@ const Landing = () => {
         </div>
       </div>
 
-      {/* Embedded Catalog Section */}
-      {selectedCatalog && (
-        <section id="catalog-section" className="catalog-wrapper-premium animate-fade-in">
-          {selectedCatalog === 'autolook' ? (
-             <SharedCatalog 
-              storeType="autolook"
-              themeClass="theme-auto"
-              title="COLECCIÓN AUTOLOOK"
-              subtitle="Equipamiento de nivel competitivo para tu vehículo."
-              categories={['Todos', 'Aerodinámica', 'Rines', 'Performance', 'Iluminación']} 
-              hideLayout={true}
-            />
-          ) : (
-            <SharedCatalog 
-              storeType="motolook"
-              themeClass="theme-moto"
-              title="COLECCIÓN MOTOLOOK"
-              subtitle="Accesorios y repuestos para dominar el asfalto."
-              categories={['Todos', 'Repuestos', 'Lujos', 'Seguridad', 'Accesorios']} 
-              hideLayout={true}
-            />
-          )}
-        </section>
-      )}
 
       {/* Quiénes Somos Section */}
       <section className="about-us-premium animate-fade-in-up" id="about">
@@ -160,6 +136,31 @@ const Landing = () => {
           </div>
         </div>
       </section>
+
+      {/* Embedded Catalog Section */}
+      {selectedCatalog && (
+        <section id="catalog-section" className="catalog-wrapper-premium animate-fade-in">
+          {selectedCatalog === 'autolook' ? (
+             <SharedCatalog 
+              storeType="autolook"
+              themeClass="theme-auto"
+              title="COLECCIÓN AUTOLOOK"
+              subtitle="Equipamiento de nivel competitivo para tu vehículo."
+              categories={['Todos', 'Aerodinámica', 'Rines', 'Performance', 'Iluminación']} 
+              hideLayout={true}
+            />
+          ) : (
+            <SharedCatalog 
+              storeType="motolook"
+              themeClass="theme-moto"
+              title="COLECCIÓN MOTOLOOK"
+              subtitle="Accesorios y repuestos para dominar el asfalto."
+              categories={['Todos', 'Repuestos', 'Lujos', 'Seguridad', 'Accesorios']} 
+              hideLayout={true}
+            />
+          )}
+        </section>
+      )}
 
       <Footer />
     </div>
