@@ -98,9 +98,10 @@ const Landing = () => {
       </div>
 
 
-      {/* Quiénes Somos Section */}
-      <section className="about-us-premium animate-on-scroll" id="about">
-        <div className="container">
+      <div className="content-gradient-wrapper">
+        {/* Quiénes Somos Section */}
+        <section className="about-us-premium animate-on-scroll" id="about">
+          <div className="container">
           <div className="about-content-wrapper">
             <div className="about-image-container">
               <img src="/quienes-somos.jpg" alt="Autolook Colombia Instalaciones" className="about-image blur-effect animate-float" />
@@ -227,8 +228,9 @@ const Landing = () => {
               </div>
             </div>
           </div>
-        </div>
-      </section>
+          </div>
+        </section>
+      </div>
 
       <Footer />
     </div>
