@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Navbar from '../shared/components/Navbar';
 import Footer from '../shared/components/Footer';
 import SharedCatalog from '../shared/components/SharedCatalog';
+import { Wrench, ShieldCheck, Award } from 'lucide-react';
 import './Landing.css';
 
 const Landing = () => {
@@ -140,19 +141,19 @@ const Landing = () => {
           
           <div className="modern-services-grid">
             <div className="service-item glass-blur">
-              <div className="service-icon">⚡</div>
-              <h3>Performance & Tuning</h3>
-              <p>Optimizamos el rendimiento de tu motor con piezas importadas de competición.</p>
+              <div className="service-icon"><Wrench size={40} color="var(--primary)" /></div>
+              <h3>Instalación de Accesorios</h3>
+              <p>Instalaciones profesionales, limpias y seguras para autos y motos.</p>
             </div>
             <div className="service-item glass-blur">
-              <div className="service-icon">✨</div>
-              <h3>Detailing Premium</h3>
-              <p>Restauración de pintura, recubrimiento cerámico y limpieza de interiores al detalle.</p>
+              <div className="service-icon"><ShieldCheck size={40} color="var(--primary)" /></div>
+              <h3>Productos Premium</h3>
+              <p>Utilizamos productos de alta calidad al mejor precio del mercado.</p>
             </div>
             <div className="service-item glass-blur">
-              <div className="service-icon">🛡️</div>
-              <h3>Seguridad & Control</h3>
-              <p>Instalación de GPS, alarmas inteligentes y láminas de seguridad blindadas.</p>
+              <div className="service-icon"><Award size={40} color="var(--primary)" /></div>
+              <h3>Garantía y Experiencia</h3>
+              <p>Más de 15 años de trayectoria respaldan nuestro trabajo y atención personalizada.</p>
             </div>
           </div>
         </div>
