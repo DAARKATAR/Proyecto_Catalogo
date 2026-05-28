@@ -283,7 +283,7 @@
 
 /* Unified Content Wrapper */
 .content-gradient-wrapper {
-  background: linear-gradient(to bottom, #000000 0%, #300000 60%, var(--primary) 100%);
+  background: linear-gradient(to bottom, #000000 0%, #150000 60%, #4a0000 100%);
   width: 100%;
 }
 
