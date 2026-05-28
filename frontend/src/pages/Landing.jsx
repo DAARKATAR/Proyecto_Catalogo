@@ -162,6 +162,52 @@ const Landing = () => {
         </section>
       )}
 
+      {/* Cómo encontrarnos Section */}
+      <section className="location-premium animate-fade-in-up" id="location">
+        <div className="container">
+          <div className="section-header-modern text-center">
+            <span className="subtitle-accent">UBICACIÓN Y CONTACTO</span>
+            <h2>¿Cómo Encontrarnos?</h2>
+          </div>
+          
+          <div className="location-grid">
+            <div className="contact-info-panel">
+              <h3>Contacto Directo</h3>
+              <ul className="contact-list">
+                <li>
+                  <span className="icon">📍</span>
+                  <span><strong>Dirección:</strong> Calle 13 #10-04, Funza</span>
+                </li>
+                <li>
+                  <span className="icon">✉️</span>
+                  <span><strong>Correo:</strong> autolookcolombia@gmail.com</span>
+                </li>
+                <li>
+                  <span className="icon">🕒</span>
+                  <span><strong>Horario:</strong> Lunes a Sábado: 8:00am - 6:00pm</span>
+                </li>
+              </ul>
+              
+              <h4 style={{ marginTop: '2rem', marginBottom: '1rem', color: 'white' }}>Nuestras Redes</h4>
+              <div className="social-links-large">
+                <a href="https://wa.me/573018265636" target="_blank" rel="noopener noreferrer" className="social-icon-large" title="WhatsApp">WA</a>
+                <a href="#" className="social-icon-large" title="Instagram (Próximamente)">IG</a>
+                <a href="#" className="social-icon-large" title="Facebook (Próximamente)">FB</a>
+                <a href="#" className="social-icon-large" title="TikTok (Próximamente)">TK</a>
+              </div>
+            </div>
+            
+            <div className="maps-container">
+              <div className="maps-placeholder">
+                <span style={{ fontSize: '3rem', marginBottom: '1rem' }}>🗺️</span>
+                <h3>Espacio para Google Maps</h3>
+                <p>Aquí se integrará el mapa interactivo de la ubicación exacta.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );

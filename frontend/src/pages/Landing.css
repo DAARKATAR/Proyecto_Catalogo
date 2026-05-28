@@ -420,3 +420,109 @@
   color: #a0aabf;
   line-height: 1.6;
 }
+
+/* Location Section */
+.location-premium {
+  padding: 6rem 0;
+  background: #000;
+  position: relative;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.location-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .location-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+.contact-info-panel {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 3rem;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.contact-info-panel h3 {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  color: white;
+}
+
+.contact-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.contact-list li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.1rem;
+  color: #a0aabf;
+}
+
+.contact-list .icon {
+  color: var(--primary);
+  font-size: 1.5rem;
+}
+
+.social-links-large {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.social-icon-large {
+  width: 50px;
+  height: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  text-decoration: none;
+  color: white;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.social-icon-large:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  box-shadow: 0 0 20px rgba(230, 0, 0, 0.5);
+  transform: translateY(-5px);
+}
+
+.maps-placeholder {
+  width: 100%;
+  height: 400px;
+  background: rgba(255,255,255,0.02);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed rgba(255,255,255,0.1);
+  color: var(--text-dim);
+  text-align: center;
+  padding: 2rem;
+  transition: all 0.3s;
+}
+
+.maps-placeholder:hover {
+  border-color: var(--primary);
+  background: rgba(230, 0, 0, 0.05);
+}
